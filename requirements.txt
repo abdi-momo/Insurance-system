@@ -1,0 +1,10 @@
+Django
+django_celery_beat
+django-role-permissions
+django-simple-history
+twilio
+django-crispy_forms
+django-mathfilters
+xhtml2pdf
+shortuuid
+APScheduler

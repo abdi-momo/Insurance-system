@@ -1,0 +1,375 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	
+	<div class="row">
+		<div class="col-6">
+			<form class="form">
+				<div>
+			        Date début: <input  class="dateDebut" id="dateDebut" type="date" name="datedebut"/>
+			        Date fin: <input  class="datefin" id="datefin" type="date" name="datefin"/>
+			        <input type="submit" value="Afficher" class="btn btn-info" />
+			    </div>
+			</form>
+	  		<canvas id="amountPeriode"></canvas>
+		</div>
+		<!-- Daily expense Chart-->
+		<div class="col-6">
+			<hr>
+	  		<canvas id="DailyExpense"></canvas>
+		</div>
+		<hr>
+		<div class="col-6">
+			<div class="table-responsive" style="overflow-x:auto;">
+		        <table class="table table-striped" id="myTable" name="myTable">
+		            <thead>
+		                <tr>
+		                    <th>DATE DE REGELEMENT</th>
+		                    <th>MONTANT REGLE</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		                {% for reglement in ListReglement %}
+		                    <tr>
+		                        <td>{{ reglement.date_reglement }}</td>
+		                        <td>{{ reglement.montant_a_regler }}</td>
+		                    </tr>
+		                {% endfor %}
+		            </tbody>
+		        </table>
+    		</div>
+		</div>
+		<div class="col-6">
+			<div class="table-responsive" style="overflow-x:auto;">
+		        <table class="table table-striped" id="expenseTable" name="expenseTable">
+		            <thead>
+		                <tr>
+		                    <th>DATE DEPENSE</th>
+		                    <th>MONTANT</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		                {% for expense in expenseListe %}
+		                    <tr>
+		                        <td>{{ expense.date_depense }}</td>
+		                        <td>{{ expense.montant }}</td>
+		                    </tr>
+		                {% endfor %}
+		            </tbody>
+		        </table>
+    		</div>
+		</div>
+		<br>
+
+
+		<!-- Monthly expense Chart-->
+		<div class="col-6">
+			<hr>
+	  		<canvas id="MonthlyIncome"></canvas>
+		</div>
+
+		<div class="col-6">
+			<hr>
+	  		<canvas id="MonthlyExpense"></canvas>
+		</div>
+		<hr>
+		<!-- Yearly expenses Chart-->
+		<hr>
+		<div class="col-6">
+			<hr>
+	  		<canvas id="YearlyIncome"></canvas>
+		</div>
+
+		<div class="col-6">
+			<hr>
+	  		<canvas id="YearlyExpense"></canvas>
+		</div>
+
+		
+
+	</div>
+	<script>
+		// Icome variable
+		var benefice = {{ benefice }}
+		var list_periode = {{ list_periode|safe }}
+		var yearlyIncome = {{ YearlyIncome }}
+		var periode = {{ YearList|safe }}
+
+		// Expense variable
+		var dailyexpense = {{ list_daily_expense }}
+		var dailyexpenseperiode = {{ list_periode_expense|safe }}
+
+		var monthlyIncome = {{ monthly_income_list }}
+		var monthIncomeList = {{ MonthIncomeList|safe }}
+
+		var monthlyexpense = {{ monthlyExpense }}
+		var monthExpenseList = {{ monthlyExpenseList|safe }}
+
+		var yearlyexpense = {{ listEpenseAnnuelle }}
+		var expenseperiode = {{ depensePeriode|safe }}
+
+		// Daily reports
+		let amountPaidCtx = document.getElementById("amountPeriode").getContext("2d");
+		let valeurChart = new Chart(amountPaidCtx, {
+		    type: "line",
+		    options: {
+				responsive: true,
+		      	title: {
+		    		text: "Montants cumilés payés par jour",
+		    		display: true
+		   		},
+		      	layout: {
+		        	padding: {
+		          	left: 0,
+		          	right: 0,
+		          	top: 0,
+		          	bottom: 25
+		        	}
+		      	}
+		    },
+		    data: {
+		   		labels: list_periode,
+		   		datasets: [
+				    		{
+								label: "Total des montants payés(KMF) journalier",
+								backgroundColor: ['#000080','#FFFF00','#FF0000','#FEFCFF','#ff6384','#36a2eb','#cc65fe','#ffce56'],
+								borderColor: "#417690",
+								data:benefice,
+		            fill:false,
+		            tension: 0.1,
+		            hoverOffset: 4,
+						    }
+		   				]
+		  		},
+		  });
+
+	// Daily expenses Chart
+	let dailyExpenseCtx = document.getElementById("DailyExpense").getContext("2d");
+		let dailyExpenseChart = new Chart(dailyExpenseCtx, {
+		    type: "bar",
+		    options: {
+				responsive: true,
+		      	title: {
+		    		text: "Dépenses engagées par jour",
+		    		display: true
+		   		},
+		      	layout: {
+		        	padding: {
+		          	left: 0,
+		          	right: 0,
+		          	top: 0,
+		          	bottom: 25
+		        	}
+		      	}
+		    },
+		    data: {
+		   		labels: dailyexpenseperiode,
+		   		datasets: [
+				    		{
+								label: "Dépenses engagées journalier (KMF)",
+								backgroundColor: ['#000080','#FFFF00','#FF0000','#FEFCFF','#ff6384','#36a2eb','#cc65fe','#ffce56'],
+								borderColor: "red",
+								data:dailyexpense,
+		            fill:false,
+		            tension: 0.1,
+		            hoverOffset: 4,
+						    }
+		   				]
+		  		},
+		  });
+
+	// Monthly reports
+
+
+	// Monthly income
+	let mohtlyIncomeCtx = document.getElementById("MonthlyIncome").getContext("2d");
+	let monthIncomeChart = new Chart(mohtlyIncomeCtx, {
+    type: "bar",
+    options: {
+		responsive: true,
+      	title: {
+    		text: "Totaux mensuels des montants des assurances payés (KMF) des 12 denièrs mois",
+    		display: true
+   		},
+      	layout: {
+        	padding: {
+          	left: 0,
+          	right: 0,
+          	top: 0,
+          	bottom: 25
+        	}
+      	}
+    },
+    data: {
+   		labels: monthIncomeList,
+   		datasets: [
+		    		{
+						label: "Montants mensuels payés (KMF)",
+						backgroundColor: ['#ff6384','#36a2eb','#cc65fe','#ffce56'],
+						borderColor: "#417690",
+						data:monthlyIncome,
+            fill:false,
+            tension: 0.1,
+            hoverOffset: 4,
+				    }
+   				]
+  		},
+  });
+
+
+	let monthlyExpenseCtx = document.getElementById("MonthlyExpense").getContext("2d");
+	let monthexpenseChart = new Chart(monthlyExpenseCtx, {
+    type: "bar",
+    options: {
+		responsive: true,
+      	title: {
+    		text: "Dépenses mensuelles realisées(KMF) des 12 denièrs mois",
+    		display: true
+   		},
+      	layout: {
+        	padding: {
+          	left: 0,
+          	right: 0,
+          	top: 0,
+          	bottom: 25
+        	}
+      	}
+    },
+    data: {
+   		labels: monthExpenseList,
+   		datasets: [
+		    		{
+						label: "Dépenses mensuelles(KMF)",
+						backgroundColor: ['#ff6384','#36a2eb','#cc65fe','#ffce56'],
+						borderColor: "#417690",
+						data:monthlyexpense,
+            fill:false,
+            tension: 0.1,
+            hoverOffset: 4,
+				    }
+   				]
+  		},
+  });	
+
+
+
+	// Yearly Reports
+  	let yearlyIncomeCtx = document.getElementById("YearlyIncome").getContext("2d");
+	let yearIncomeChart = new Chart(yearlyIncomeCtx, {
+    type: "line",
+    options: {
+		responsive: true,
+      	title: {
+    		text: "Totaux annuels des montants des assurances payés (KMF) des 5 denières années",
+    		display: true
+   		},
+      	layout: {
+        	padding: {
+          	left: 0,
+          	right: 0,
+          	top: 0,
+          	bottom: 25
+        	}
+      	}
+    },
+    data: {
+   		labels: periode,
+   		datasets: [
+		    		{
+						label: "Montants annuels payés (KMF)",
+						backgroundColor: ['#ff6384','#36a2eb','#cc65fe','#ffce56'],
+						borderColor: "#417690",
+						data:yearlyIncome,
+            fill:false,
+            tension: 0.1,
+            hoverOffset: 4,
+				    }
+   				]
+  		},
+  });
+
+
+	let yearlyExpenseCtx = document.getElementById("YearlyExpense").getContext("2d");
+	let yearexpenseChart = new Chart(yearlyExpenseCtx, {
+    type: "line",
+    options: {
+		responsive: true,
+      	title: {
+    		text: "Dépenses annuelles realisées(KMF) des 5 denières années",
+    		display: true
+   		},
+      	layout: {
+        	padding: {
+          	left: 0,
+          	right: 0,
+          	top: 0,
+          	bottom: 25
+        	}
+      	}
+    },
+    data: {
+   		labels: expenseperiode,
+   		datasets: [
+		    		{
+						label: "Dépenses annuelles(KMF)",
+						backgroundColor: ['#ff6384','#36a2eb','#cc65fe','#ffce56'],
+						borderColor: "#417690",
+						data:yearlyexpense,
+            fill:false,
+            tension: 0.1,
+            hoverOffset: 4,
+				    }
+   				]
+  		},
+  });
+
+	</script>
+	<script>
+        $(document).ready(function() {
+        // Setup - add a text input to each footer cell
+        $('#myTable thead tr').clone(true).appendTo('#myTable thead');
+        $('#myTable thead tr:eq(1) th').each( function (i) {
+            var title = $(this).text();
+            $(this).html( '<input type="text" placeholder="'+title+'" />' );
+            $('input', this ).on( 'keyup change', function () {
+                if ( table.column(i).search() !== this.value ) {
+                    table
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+
+        var table = $('#myTable').DataTable( {
+            orderCellsTop: true,
+            fixedHeader: true
+            } );
+        } );
+    </script>
+
+    <script>
+        $(document).ready(function() {
+        // Setup - add a text input to each footer cell
+        $('#expenseTable thead tr').clone(true).appendTo('#expenseTable thead');
+        $('#expenseTable thead tr:eq(1) th').each( function (i) {
+            var title = $(this).text();
+            $(this).html( '<input type="text" placeholder="'+title+'" />' );
+            $('input', this ).on( 'keyup change', function () {
+                if ( table.column(i).search() !== this.value ) {
+                    table
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+
+        var table = $('#expenseTable').DataTable( {
+            orderCellsTop: true,
+            fixedHeader: true
+            } );
+        } );
+    </script>
+{% endblock %}

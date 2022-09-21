@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    NOUVEAU CLIENT
+{% endblock %}
+{% load static %}
+{% block content %}
+    <div class="list-group-item active">AJOUT DE NOUVEAU CLIENTS</div>
+    <!-- <hr style="width:1150.5px; color:firebrick; background-color:firebrick; height:3px;" /> -->
+    <br>
+    <div class="panel-body" id="transfer_content">
+        <form method="post" action="." >
+            {% csrf_token %}
+            <div class="row">
+               <div class="col-4">
+                    {{ form.CIN|as_crispy_field }}
+                    {{ form.nom|as_crispy_field }}
+                    {{ form.prenom|as_crispy_field }}
+                    {{ form.photo|as_crispy_field }}
+                </div>
+                <div class="col-8">
+                    {{ form.adresse|as_crispy_field }}
+                    {{ form.telephone|as_crispy_field }}
+                    {{ form.email|as_crispy_field }}
+                    
+                </div> 
+                
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary btn-block btn-large">Enregistrer</button>
+            </div>
+            <br>
+            <i>(*): Information obligatoire. </i>
+        </form>   
+    </div>  
+    <br> 
+
+    <script>
+      $(function () {
+        $("#datetimepicker1").datetimepicker({
+          format: 'DD/MM/YYYY HH:mm',
+        });
+      });
+    </script>
+{% endblock%}

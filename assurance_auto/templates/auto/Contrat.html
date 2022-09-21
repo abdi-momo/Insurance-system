@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    NOUVEAU VEHICULE
+{% endblock %}
+{% load static %}
+{% block content %}
+
+    <div class="from">
+        <form method="post" action="." enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-6">
+                    {{ form.categorie|as_crispy_field }}
+                    {{ form.statut_assurance|as_crispy_field }}
+                    {{ form.nombre_de_mois|as_crispy_field }}
+                </div>
+                <div class="col-6">
+                    {{ form.type_contrat|as_crispy_field }}
+                    {{ form.vehicule|as_crispy_field }}
+                    {{ form.sous_couvert|as_crispy_field }}
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary btn-block btn-small">Enregistrer</button>
+                    
+                </div>
+                <div class="col-6">
+                    <a href="{% url 'assurance_auto:Contrat_Liste' %}" class="btn btn-warning btn-block btn-small">Annuler</a>
+                </div>
+                
+            </div>
+            <br>
+            <i>(*): Information obligatoire. </i>
+        </form>
+    </div>
+{% endblock content %}

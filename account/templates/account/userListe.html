@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+     <form>
+        <div class="row">
+            <div class="col-9">
+                <br>
+                <div class="list-group-item active">
+                    <strong> Listes des utilisateurs </strong>
+                </div>
+                <br>
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Username</th>
+{#                            <th scope="col">Nom</th>#}
+{#                            <th scope="col">Adresse e-mail</th>#}
+                            <th scope="col">Date création</th>
+                            <th scope="col">Groupe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in list_user %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ user.username }}</td>
+{#                            <td>{{ user.last_name }}</td>#}
+{#                            <td>{{ user.email }}</td>#}
+                            <td>{{ user.date_joined }}</td>
+                            <td>{{ user.groups }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

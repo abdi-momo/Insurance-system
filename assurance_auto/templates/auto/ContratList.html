@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load mathfilters %}
+{% block content %}
+    <div class="col-md-3">
+        <ul class="list-group">
+            
+            <div id="btn_new">
+                <form type="post" action="." style="margin: 0">
+                    <input  id="numContrat" type="text" name="numContrat"  placeholder="Entez le numéro de contrat ..." onkeyup="myFunction()">
+                    <br>
+                    <br>
+                    <a href="" data-toggle="modal" data-target="#exampleModal" class="btn btn-info" >Nouveau contrat</a>
+                </form>
+            </div>
+            <!-- Add Department Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="list-group-item active">
+                            <h5 class="modal-title" id="exampleModalLabel"><strong>Ajout de contrat</strong></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> <!-- /modal header -->
+                        <div class="modal-body">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <br>
+                                <button type="submit" class="btn btn-info">
+                                    Enregistrer
+                                </button>
+                            </form>
+                        </div>
+                        <!-- /modal body -->
+                    </div>
+                </div>
+            </div>
+        </ul>
+    </div> <!-- /sidebar -->
+    <h3 align="center"><strong>LISTE DES CONTRATS</strong></h3>
+    <div class="table-responsive" style="overflow-x:auto;">
+        <table class="table table-striped" id="myTable" name="myTable">
+            <thead>
+                <tr align="center">
+                    <th>N° CONTRAT</th>
+                    <th>S/C</th>
+                    <th>VEHICULE</th>
+                    <!-- <th>CATEGORIE</th> -->
+                    <!-- <th>PERSONNE AUTORISEE</th> -->
+                    <th>JOURS RESTANTS</th>
+                    <!-- <th>NB JRS RESTANTS</th> -->
+                    <th>FIN ASSURANCE</th>
+                    <th>MONTANT</th>
+                    <th>STATUT</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contrat in ContratList %}
+                    <tr align="center">
+                        <!-- <td>{{ forloop.counter }}</td> -->
+                        <td><a href="{% url 'assurance_auto:Modif_Contrat' contrat.id %}">{{ contrat.numero_de_contrat }}</a></td>
+                        <td>{{ contrat.sous_couvert }}</td>
+                        <td>{{ contrat.vehicule }}</td>
+                        <!-- <td>{{ contrat.categorie }}</td> -->
+                        <!-- <td>{{ contrat.conducteur }}</td> -->
+                        <!-- <td>{{ contrat.type_contrat.duration }}</td> -->
+                        <td>{{ contrat.remainingdays }}</td>
+                        <td>{{ contrat.get_NbDays }}</td>
+                        <td>{{ contrat.type_contrat.montant_du_contrat }}</td>
+                        <td>{{ contrat.statut_assurance }}</td>
+                        <td>
+                            <a href="{% url 'assurance_auto:Edit_Contrat' contrat.id %}" class="btn btn-warning">Statut</a>
+                            <a href="{% url 'assurance_auto:Detail_contrat' contrat.id %}" class="btn btn-info">Détails</a>
+
+                            <a href="{% url 'assurance_auto:carton_assurance' contrat.id %}" class="btn btn-info">Imprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table>
+            <tr>
+                <td>
+                    {% if ContratList.has_other_pages %}
+                        <ul class="pagination">
+                            {% if ContratList.has_previous %}
+                              <li><a href="?page={{ ContratList.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                              <li class="disabled"><span>&laquo;</span></li>
+                            {% endif %}
+                            {% for i in ContratList.paginator.page_range %}
+                              {% if ContratList.number == i %}
+                                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                              {% else %}
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                              {% endif %}
+                            {% endfor %}
+                            {% if ContratList.has_next %}
+                              <li><a href="?page={{ ContratList.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                              <li class="disabled"><span>&raquo;</span></li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+   <script type="text/javascript">
+        function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("numContrat");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+        }
+    </script>
+{% endblock content %}

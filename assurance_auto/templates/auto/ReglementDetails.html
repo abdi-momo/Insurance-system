@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+{% block content %}
+    <div class ='col-sm-6 col-sm-offset-3' align="center">
+        <div class="list-group-item active">
+            <h3><strong>Détail du réglement </strong></h3>
+        </div>
+        <br>
+
+        <a href="" class="list-group-item"><strong>N° du contrat: </strong> {{ reglement.contrat }}</a>
+        <a href="" class="list-group-item"><strong>Montant du contrat: </strong> {{ reglement.contrat.montant_du_contrat }} </a>
+        <a href="" class="list-group-item"><strong>Montant reglé: </strong>{{ reglement.montant_a_regler }}</a>
+        <a href="" class="list-group-item"><strong>Reste à regler: </strong>{{ reglement.contrat.montant_du_contrat|sub:reglement.UpdatePaidAmount }}</a>
+        <a href="" class="list-group-item"><strong>Date de reglément : </strong>{{ reglement.date_reglement }}</a>
+        <a href="" class="list-group-item"><strong>Mode de reglément : </strong>{{reglement.mode_de_paiment }}</a>
+        <a href="" class="list-group-item"><strong>STATUT : </strong>{{reglement.regle }}</a>
+        <div class="pull-right">
+            <a href="{% url 'assurance_auto:addReglement' %}"><button type="button" class="btn btn-info"></span> Liste des regléments</button></a>
+            <hr>
+        </div>
+    </div>
+{% endblock %}

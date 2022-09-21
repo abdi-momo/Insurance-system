@@ -1,0 +1,291 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+{% load static %}
+{% load mathfilters %}
+<meta charset="UTF-8">
+<html>
+    <head>
+        <style type="text/css">
+        @page {
+            size: a4;
+            margin: 1cm;
+            margin-top: 0px;
+            border: 1px;
+        }
+        table td{
+            font-family: '!important', 'sans-serif';
+            /*border-bottom: 1px solid black;*/
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+
+         table th,td{
+            font-family: 'serif;', 'sans-serif';
+            font-size: 12px;
+        }
+
+        .content-border{
+            /*box-sizing: border-box;*/
+            border: 1px;
+        }
+        
+        #carton{
+            border:1px solid black;
+            border-collapse: collapse;
+            position: fixed;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            z-index: 999;
+            /*watermark: 'KA';*/
+            background-image: url(D:/GestionAssurance/static/img/logo.jpeg);
+        }
+
+         .fixed-header, .fixed-footer{
+            width: 100%;
+            position: fixed;        
+            background: #333;
+            padding: 10px 0;
+            color: #fff;
+        }
+        .container{
+            width: 80%;
+            margin: 0 auto; /* Center the DIV horizontally */
+        }
+        .fixed-header{
+            top: 0;
+        }
+        .fixed-footer{
+            bottom: 0;
+        }
+
+    </style>
+    </head>
+    <body>
+        <caption>
+            <img src="D:/GestionAssurance/static/img/KM_Logo.jpg" height="80" style="width:1000px; height: 90%;" />
+        </caption>
+        <caption><p style="font-size:20px; background-color: lightblue;">COORDONNEES DU CLIENT</p></caption>
+        <p style="font-size:14px">Souscription (Nom et prénom): <b>{{ contrat.vehicule.proprietaire.nom }} {{ contrat.vehicule.proprietaire.prenom }}</b><br>
+        Adresse: <b>{{ contrat.vehicule.proprietaire.adresse }}</b><br>
+        Téléphone: <b>{{ contrat.vehicule.proprietaire.telephone }}</b><br>
+        E-mail: <b>{{ contrat.vehicule.proprietaire.email }}</b>
+        <p style="font-size:12px">
+            Nous soussigné KAMIL ASSURANCE, attestons par la présente que : Mr/Mme <b>{{ contrat.vehicule.proprietaire.nom }} {{ contrat.vehicule.proprietaire.prenom }}</b>  
+            Demeurant à  <b>{{ contrat.vehicule.proprietaire.adresse }}</b>    
+            a souscrit à notre société <b>KAMIL ASSURANCE</b> au capital de 58 000 000KMF- Entreprise régie par le code des assurances-Siège social : Moroni Hadoudja-R.C 132/15 – R.A 6593 – B – 15.
+            Un contrat d’assurance automobile : <b>{{ contrat.numero_de_contrat }}</b> pour la marque : <b>{{contrat.vehicule.model.marque }} {{contrat.vehicule.model.nom_model }}</b> 
+            Immatricule : <b> {{contrat.vehicule.immatriculation }}</b>.
+            Ce contrat est valable à compter de la du {{ contrat.created|date:"d M, Y" }} 
+        </p>
+        <p style="background-color: lightblue; font-size: 14px;">La garantie dommages causés (Responsabilité civile)</p>
+        <p style="font-size:12px">
+            <ul style="font-size: 12px;">
+                <li>
+                    <b>L’assuré</b> est le propriétaire du véhicule, son conjoint  ou toute personne ayant été déclaré dans le contrat et ses passagers.</li>
+                <li>
+                    Le bien assuré, est un véhicule terrestre à moteur, à deux, trois ou quatre roues, désigné dans les conditions particulières. L’ensemble que constitue ce véhicule avec une remorque qu’il tracte dont le poids total en charge est inférieur ou égal à 750kg.
+                </li>
+                <li>
+                    <b>La conduite non autorisée</b>, lorsque le véhicule assuré est impliqué dans un accident dont la responsabilité incombe à un conducteur non autorisé (conducteur non déclaré et la conduite du vehicule contre le gré du propriétaire). Nous indemnisons les victimes puis exerçons un recours contre le responsable, sauf si le conducteur non autorisé est un enfant mineur du propriétaire du véhicule assuré.
+                </li>
+                <li>
+                    <b>En cas d’action judiciaire ou administrative mettant en jeu simultanément l’intérêt de l’assuré et le notre</b>. Nous dirigeons le procès devant la juridiction civile, commerciale, ou administrative ; en ce qui concerne les juridictions pénales, si l’intérêt de l’assuré est en jeu, nous ne pouvons intervenir qu’avec son raccord. Nous transigeons en matière civile avec les tiers lésée. Aucune reconnaissance de responsabilité, aucune entente sur le montant de l’indemnisation intervenant sans notre accord ne nous est opposable. Toute fois, l’aveu d’un fait matériel ou le seul fait de procurer à la victime un secours urgent, lorsqu’il s’agit d’un acte d’assistance, ne peuvent être considérés comme une reconnaissance de responsabilité.
+
+                </li>
+            </ul>
+        </p>
+        <p style="background-color: lightblue; font-size: 14px;">Votre Couverture choisie :</p>
+        <p style="font-size: 12px;">
+            Notre accord express pour une assurance annuelle reconductible, établie par la remise des Conditions Particulière du contrat et du certificat d’assurance pour le période annuelle, couvre seulement :
+            <ol style="font-size: 12px;">
+                <li>
+                    La totalité de la carrosserie de votre véhicule et ses accessoires extérieurs (rétroviseur, pare-choc, lumineux extérieur).
+                </li>
+                <li>
+                    les passagers assis sur le nombre de places déclarées dans la carte grise et le contrat.
+                </li>
+            </ol>
+        </p>
+        <p><font color="red">
+            <ul style="font-size: 12px;">
+                <b><u>NB :</u></b> Votre formule ne prend pas en charge le moteur, dont tout ce qui loge sous le capot et les glasses, dont les pare-brises avant, arrière et latéraux.
+                </li>
+            </ul></font>
+        </p>
+        <p style="background-color: lightblue; font-size: 14px;">Cotisation</p>
+        <p style="font-size:12px">
+            Votre prime:
+        </p>
+
+        <p style="background-color: lightblue; font-size: 14px;">Conseils</p>
+        <p style="font-size:12px">
+            <font color="red">
+                AU volant jamais d alcool ni de stupéfiant. Un tiers des accidents mortels est du a l alcool. La consommation de stupéfiant augmente jusqu’a 30 fois le risque d’accident 
+
+            </font>
+        </p>
+        
+        <div id="footer">
+            <table>
+                <tr>
+                   <th align="left"><u>Le SOUSCRIPTEUR</u></th> 
+                   <th align="center"> <u>L'ASSUREUR</u></th> 
+                </tr> 
+            </table>
+        </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <footer>
+            <div align="center">
+                <p style="font-size:8px">siège Moroni- Hadoudja Ngazidja*Tel : (+269) 773 30 11/320 06 65/ 434 75 26 – contact@kamilassurance.com – www.kamilassurance.com – S.A.R.L.. au capital de 50 000 000 KMF – R.C 132/15 – R.A. 5432.B. Société d assurance régie par le code des assurances et soumise à l autorité  du ministre des finances et  du budget de l Union de Comores </p>
+            </div>
+        </footer>
+
+        <div class="content-border"> 
+            <table>
+                <tr>
+                    <td>
+                        <div class="fixed-header">
+                            <div class="container">
+                                <strong><h1 align="center">CONTRAT D'ASSURANCE</h1></strong>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="border:none;">
+                        <img src="D:/GestionAssurance/static/img/KM_Logo.jpg" style="width:1000px; height: 90%;" />
+                        <p style="background-color: lightblue;"> Votre assureur au quotidien</p>
+                    </th>
+                    
+                </tr>
+            </table>
+            <p>
+                <strong>KAMIL ASSURANCE</strong>
+            </p>
+            <p><b>Moroni Hadoudja Tel: 773 30 11 mobs 320 06 65</b><br>
+                RCN°5881-B<br>
+                <b>N° de Compte Exim Bank:</b> 001103503
+            </p>
+            <table class="table table-striped" border="1">
+                <tr>
+                    <th align="left">CATEGORIE:</th>
+                    <td align="center"><br>{{contrat.categorie }}</td>
+                </tr>
+                <tr>
+                    <th align="left">MARQUE:</th>
+                    <td align="center"><br>{{contrat.vehicule.model.nom_model }}</td>
+                </tr>
+                <tr>
+                    <th align="left">MATRICULE:</th>
+                    <td align="center"><br>{{ contrat.vehicule.immatriculation }}</td>
+                </tr>
+                <tr>
+                    <th align="left">CARROSSERIE: </th>
+                    <td align="center"><br>{{ contrat.vehicule.carroserie }}</td>
+                </tr>
+                <tr>
+                    <th align="left">PUISSANCE ADMINISTRATIVE:            </th>
+                    <td align="center"><br>{{ contrat.vehicule.puissance }}</td>
+                </tr>
+                <tr>
+                    <th align="left">ENERGIE: </th>
+                    <td align="center"><br>{{ contrat.vehicule.type_carburant }}</td>
+                </tr>
+                <tr>
+                    <th align="left">PLACES ASSUREES:</th>  
+                    <td align="center"><br>{{ contrat.vehicule.nb_place }}</td>
+                </tr>
+                <tr>
+                    <th align="left">DATE:</th>
+                    <td align="center"><br>{{ contrat.created }}</td>
+                </tr>
+                <tr>
+                    <th align="left">N° DU PERMIS:</th>
+                    <td align="center"><br>{{ contrat.vehicule.proprietaire.numero_permis }}</td>
+                </tr>
+                
+                <tr>
+                    <th align="left">GARANTIE</th>
+                    <td align="center"><br>{{ contrat.type_contrat.garantie }}</td>
+                </tr>
+                
+            </table>  
+            <br>
+            <table class="table table-striped" border="1">
+                <tr>
+                    <th align="left">POLICE:</th>
+                    <td align="center"><br>{{contrat.numero_de_contrat }}</td>
+                </tr>
+                <tr>
+                    <th align="left">SOUSCRIPTEUR/ASSURE:</th>
+                    <td align="center"><br>Mr/Mme {{contrat.vehicule.proprietaire.nom }} {{contrat.vehicule.proprietaire.prenom }}</td>
+                </tr>
+                <tr>
+                    <th align="left">ADRESSE:</th>
+                    <td align="center"><br>{{contrat.vehicule.proprietaire.adresse }}</td>
+                </tr>
+                <tr>
+                    <th align="left">TELEPHONE: </th>
+                    <td align="center"><br>{{ contrat.vehicule.proprietaire.telephone }}</td>
+                </tr>
+                <tr>
+                    <th align="left">DUREE DU CONTRAT:            </th>
+                    <td align="center"><br>{{ contrat.type_contrat.duration }} jours</td>
+                </tr>
+                <tr>
+                    <th align="left">CHAUFFEUR: </th>
+                    <td align="center"><br>{{ contrat.vehicule.conducteur }}</td>
+                </tr>
+                <tr>
+                    <th align="left">MONTANT DU CONTRAT:</th>
+                    <td align="center"><br>{{ contrat.type_contrat.montant_du_contrat }} KMF</td>
+                </tr>
+                
+            </table>  
+            <br>
+            <table class="table table-striped" border="1">
+                <tr>
+                    <th align="left"><br>MONTANT ASSURANCE HT:</th>
+                    <td align="center"><br>{{ contrat.type_contrat.montant_du_contrat }} KMF</td>
+                </tr>
+                <tr>
+                    <th align="left"><br>TCA (4%):</th>
+                    <td align="center"><br>{{ contrat.tca }} KMF</td>
+                </tr>
+                <tr>
+                    <th align="left"><br>TTC:</th>
+                    <td align="center"><br>{{ contrat.type_contrat.montant_du_contrat|add:contrat.tca|floatformat:2 }} KMF</td>
+                </tr>
+            </table>
+            
+               <div class="col-2">
+                    <br>
+                    <br>
+                    Ce contrat est régi par le code CIM (Conférence Interafraine du marché d'assurance)
+                    <br>
+                    <br>
+               </div>
+                
+            </div>
+            <div id="footer">
+                <table>
+                    <tr>
+                       <th align="left"><u>Le SOUSCRIPTEUR</u></th> 
+                       <th align="center"> <u>L'ASSUREUR</u></th> 
+                    </tr> 
+                </table>
+            </div>
+        </div>
+        <div class="fixed-footer">
+            <div class="container">Copyright &copy; 2016 Your Company</div>        
+        </div>
+    </body> 
+    <footer>
+        <div align="center">
+            <p style="font-size:8px">siège Moroni- Hadoudja Ngazidja*Tel : (+269) 773 30 11/320 06 65/ 434 75 26 – contact@kamilassurance.com – www.kamilassurance.com – S.A.R.L.. au capital de 50 000 000 KMF – R.C 132/15 – R.A. 5432.B. Société d assurance régie par le code des assurances et soumise à l autorité  du ministre des finances et  du budget de l Union de Comores </p>
+        </div>
+    </footer>       
+</html>

@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load mathfilters %}
+{% block content %}
+    <!-- <strong> <h3 align="center"></h3></strong> -->
+    <table class="table table-borderless" style="width:100%">
+        <caption>RECHERCHE DU SOLDE DES CLIENTS</caption>
+        
+        <tr>
+            <th>N° de contrat :</th>
+            <td>
+                <form class="form">
+                    <input  class="num_contrat" id="num_contrat" type="text" name="num_contrat" placeholder="Numéro de contrat" />
+                    <input type="submit" value="Afficher" class="btn btn-info" />
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <th>Montant du contrat:</th>
+            <td>{{ amount_to_pay }} KMF</td>
+        </tr>
+        <tr>
+            <th>Montant payé:</th>
+            <td>{{ amount_paid }} KMF</td>
+        </tr>
+        <tr>
+            <th>Reste à payer:</th>
+            <td>{% if amount_paid == amount_to_pay %}<strong style="color: green;">{{amount_to_pay|sub:amount_paid|floatformat:2 }} KMF</strong>
+                {% else %} 
+                <strong style="color:red;">{{amount_to_pay|sub:amount_paid|floatformat:2 }} KMF </strong>
+            {% endif %}</td>
+        </tr>    
+        
+    </table>
+    <hr>
+    <div class="col-md-3">
+        <ul class="list-group">
+            <div id="btn_new" class="espacement">
+                <a href="" data-toggle="modal" data-target="#exampleModal" class="btn btn-info" >Nouveau reglement</a>
+            </div>
+            <!-- Add Department Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="list-group-item active">
+                            <h5 class="modal-title" id="exampleModalLabel"><strong>Ajout de nouveau reglement</strong></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> <!-- /modal header -->
+                        <div class="modal-body">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <br>
+                                <button type="submit" class="btn btn-info">
+                                    Enregistrer
+                            </button>
+                            </form>
+                        </div>
+                        <!-- /modal body -->
+                    </div>
+                </div>
+            </div>
+        </ul>
+    </div> <!-- /sidebar -->
+    <h3 align="center"><strong>LISTE DES REGLEMENTS</strong></h3>
+    <div class="table-responsive" style="overflow-x:auto;">
+        <table class="table table-striped" id="myTable" name="myTable">
+            <thead>
+                <tr>
+                    <th>REF PAIEMENT</th>
+                    <th>DATE DE REGELEMENT</th>
+                    <th>N° CONTRAT</th>
+                    <th>N° MATRICULE</th>
+                    <th>MONTANT DU CONTRAT</th>
+                    <th>MONTANT REGLE</th>
+                    <!-- <th>MODE DE PAIMENT</th> -->
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reglement in ListReglement %}
+                    <tr>
+                        <td><a href="{% url 'assurance_auto:Modify_Reglement' reglement.id %}">{{ reglement.code_reglement}}</a></td>
+                        <td>{{ reglement.date_reglement }}</td>
+                        <td>{{ reglement.contrat}}</td>
+                        <td>{{ reglement.contrat.vehicule.immatriculation}}</td>
+                        <td>{{ reglement.contrat.type_contrat.montant_du_contrat }}</td>
+                        <td>{{ reglement.montant_a_regler }}</td>
+                        <!-- <td>{{ reglement.mode_de_paiment }}</td> -->
+                        <td>
+                            <a href="{% url 'assurance_auto:reglement_pdf' reglement.id %}" class="btn btn-info">Imprimer</a>
+                            <a href="{% url 'assurance_auto:Edit_Reglement' reglement.id %}" class="btn btn-warning">Modifier</a>
+                        </td>
+                       <!--  {% if reglement.contrat.montant_du_contrat|sub:reglement.get_total_Amount_paid >= 0 %}
+                        <td>{{ reglement.contrat.montant_du_contrat|sub:reglement.UpdatePaidAmount }}</td>
+                        {% else %}
+                        <td>{{ reglement.contrat.montant_du_contrat|sub:reglement.UpdatePaidAmount }}</td>
+                        {% endif %} -->
+                        <!-- <td>{{ reglement.AmountPaid }}</td> -->
+                        <!-- <td><a href="{% url 'assurance_auto:Edit_Reglement' reglement.id %}">Modifier</a> -->
+                        <!-- <a href="{% url 'assurance_auto:DetailReglement' reglement.id %}">Détails</a> -->
+                        <!-- </td> -->
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+            {% if ListReglement.has_other_pages %}
+              <ul class="pagination">
+                {% if ListReglement.has_previous %}
+                  <li><a href="?page={{ ListReglement.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in ListReglement.paginator.page_range %}
+                  {% if ListReglement.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                  {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if ListReglement.has_next %}
+                  <li><a href="?page={{ ListReglement.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+              </ul>
+            {% endif %}
+    </div>
+    <!-- <script>
+        $(document).ready(function() {
+        // Setup - add a text input to each footer cell
+        $('#myTable thead tr').clone(true).appendTo('#myTable thead');
+        $('#myTable thead tr:eq(1) th').each( function (i) {
+            var title = $(this).text();
+            $(this).html( '<input type="text" placeholder="'+title+'" />' );
+            $('input', this ).on( 'keyup change', function () {
+                if ( table.column(i).search() !== this.value ) {
+                    table
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+
+        var table = $('#myTable').DataTable( {
+            orderCellsTop: true,
+            fixedHeader: true
+            } );
+        } );
+    </script>
+     -->
+    
+    <script>
+        $(document).ready(function()
+        {
+            var montantPaye;
+            var totalmontantPaye=0;
+            $('td:nth-child(7)').each(function()
+            {
+                montantPaye=$(this).html();
+                totalmontantPaye+=parseInt(montantPaye);
+                $('#totalmontantPaye').text(totalmontantPaye);
+            });
+        });
+    </script>
+{% endblock content %}

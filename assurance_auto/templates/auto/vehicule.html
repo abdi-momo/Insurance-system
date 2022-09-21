@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    NOUVEAU VEHICULE
+{% endblock %}
+{% load static %}
+{% block content %}
+    <div class="list-group-item active">AJOUT DE NOUVEAU VEHICULE</div>
+    <!-- <hr style="width:1150.5px; color:firebrick; background-color:firebrick; height:3px;" /> -->
+    <br>
+    <div class="panel-body" id="transfer_content">
+        <form method="post" action="." >
+            {% csrf_token %}
+            <div class="row">
+               <div class="col-4">
+                    {{ form.immatriculation|as_crispy_field }}
+                    {{ form.proprietaire|as_crispy_field }}
+                    {{ form.model|as_crispy_field }}
+                    {{ form.type_carburant|as_crispy_field }}
+                    
+                </div>
+                <div class="col-8">
+                    {{ form.carroserie|as_crispy_field }}
+                    {{ form.numero_carte_grise|as_crispy_field }}
+                    {{ form.nb_place|as_crispy_field }}
+                    {{ form.date_mise_en_circulation|as_crispy_field }}
+                    {{ form.puissance|as_crispy_field }}
+                    
+                </div> 
+                
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    {{ form.poids_a_vide|as_crispy_field }}  
+                </div>
+                <div class="col-2">
+                    {{ form.poids_autorise|as_crispy_field }}
+                </div>
+                <div class="col-2">
+                   {{ form.longueur|as_crispy_field }} 
+                </div>
+                <div class="col-2">
+                    {{ form.largeur|as_crispy_field }}
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary btn-block btn-small">Enregistrer</button>
+            </div>
+            <br>
+            <i>(*): Information obligatoire. </i>
+        </form>   
+    </div>  
+    <br> 
+
+    <script>
+      $(function () {
+        $("#datetimepicker1").datetimepicker({
+          format: 'DD/MM/YYYY HH:mm',
+        });
+      });
+    </script>
+{% endblock%}
+
+<div class="list-group-item active">AJOUT DES NOUVELLES PIECES</div>
+    <!-- <hr style="width:1150.5px; color:firebrick; background-color:firebrick; height:3px;" /> -->
+    

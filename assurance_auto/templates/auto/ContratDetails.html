@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>DETAIL DE CONTRAT</h1>
+    <ul class="object-tools">
+    </ul>
+    <table class="table table-striped">
+        <tr>
+            <th>Garantie</th>
+            <td>{{ contrats.type_contrat.garantie }}</td>
+        </tr>
+        <tr>
+            <th>No contrat</th>
+            <td>{{ contrats.numero_de_contrat }}</td>
+        </tr>
+        <tr>
+            <th>Véhicule</th>
+            <td>{{ contrats.vehicule }}</td>
+        </tr>
+        <tr>
+            <th>Propriétaire</th>
+            <td>{{ contrats.vehicule.proprietaire }}</td>
+        </tr>
+        <tr>
+            <th>S/C</th>
+            <td>{{ contrats.sous_couvert }} </td>
+        </tr>
+        <tr>
+            <th>Montant du contrat</th>
+            <td>{{ contrats.type_contrat.montant_du_contrat }} KMF</td>
+        </tr>
+        <tr>
+            <th>TCA (4%): </th>
+            <td>{{ contrats.tca }} KMF</td>
+        </tr>
+        <tr>
+            <th>Contrat de:</th>
+            <td>{{ contrats.type_contrat.duration }} jour(s)</td>
+        </tr>
+        <tr>
+            <th>Jours restants</th>
+            <td>{{ contrats.remainingdays }} jour(s)</td>
+        </tr>
+        <tr>
+            <th>Date début</th>
+            <td>{{ contrats.created }}</td>
+        </tr>
+        <tr>
+            <th>Date fin du contrat</th>
+            <td>{{ contrats.get_NbDays }} </td>
+        </tr>
+        <tr>
+            <th>Actuelle statut</th>
+            <td>{{ contrats.statut_assurance }}</td>
+        </tr>
+        
+        <tr>
+            <th>Nombre de place</th>
+            <td>{{ contrats.vehicule.nb_place }} + CHAUFFEUR</td>
+        </tr>
+    </table>
+    <a href="{% url 'assurance_auto:Contrat_Liste' %}" class="btn btn-info">Quitter</a
+{% endblock content %}

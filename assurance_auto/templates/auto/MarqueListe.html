@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="col-md-3">
+        <ul class="list-group">
+            <div id="btn_new">
+                <a href="" data-toggle="modal" data-target="#exampleModal" class="btn btn-info" >Nouveau marque</a>
+            </div>
+            <!-- Add Department Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="list-group-item active">
+                            <h5 class="modal-title" id="exampleModalLabel"><strong>Ajout des marques</strong></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> <!-- /modal header -->
+                        <div class="modal-body">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <br>
+                                <button type="submit" class="btn btn-info">
+                                    Enregistrer
+                                </button>
+                            </form>
+                        </div>
+                        <!-- /modal body -->
+                    </div>
+                </div>
+            </div>
+        </ul>
+    </div> <!-- /sidebar -->
+    <h3 align="center"><strong>LISTE DES MARQUES</strong></h3>
+
+    <table class="table table-striped" id="productsTable">
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>Nom de la Marque</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for marque in MarqueList %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ marque.nom_marque }}</td>
+                    <td><a href="{% url 'assurance_auto:Edit_Marque' marque.id %}">Modifier</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

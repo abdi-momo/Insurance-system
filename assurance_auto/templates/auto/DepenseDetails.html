@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+{% block content %}
+        <h2><strong>DETAILS DEPENSE </strong></h2>
+    <table class="table table-striped">
+        <tr>
+            <th>REF DEPENSE:</th> 
+            <td>{{ depense.code_depense }}</td>
+        </tr>
+        <tr>
+            <th>BENEFICIAIRE:</th>
+            <td>{{ depense.beneficiaire }}</td>
+        </tr>
+        <tr>
+            <th>OBJECTIF:</th>
+            <td>{{ depense.objet }}</td>
+        </tr>
+        <tr>
+            <th>MONTANT:</th>
+            <td>{{ depense.montant }}</td>
+        </tr>
+        <tr>
+            <th>DEPENSE REALISEE LE :</th>
+            <td>{{ depense.date_depense }}</td>
+        </tr>
+        <tr>
+            <th>COMMENTAIRE :</th>
+            <td>{{ depense.commentaires }}</td>
+        </tr>
+        <tr>
+            <th>ENREGISTRE PAR :</th>
+            <td>{{ depense.utilisateur }}</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="{% url 'assurance_auto:nouvelleDepense' %}"><button type="button" class="btn btn-warning"></span> Fermer</button></a>
+            </td>
+            
+        </tr>
+          
+    </table>
+    
+{% endblock %}

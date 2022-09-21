@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{#    <div class="col-md-3">#}
+{#        <ul class="list-group">#}
+{#            <div id="btn_new">#}
+{#                <a href="" data-toggle="modal" data-target="#exampleModal" class="btn btn-info" >Charger pour modifier</a>#}
+{#            </div>#}
+{#            <br>#}
+{#            <!-- Add Department Modal -->#}
+{#            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"#}
+{#                aria-hidden="true">#}
+{#                <div class="modal-dialog" role="document">#}
+{#                    <div class="modal-content">#}
+{#                        <div class="list-group-item active">#}
+{#                            <h5 class="modal-title" id="exampleModalLabel"><strong>Modifier des véhicules</strong></h5>#}
+{#                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#                                <span aria-hidden="true">&times;</span>#}
+{#                            </button>#}
+{#                        </div> <!-- /modal header -->#}
+{#                        <div class="modal-body">#}
+{#                            <form action="" method="post" enctype="multipart/form-data">#}
+{#                                {% csrf_token %}#}
+{#                                {{ form|crispy }}#}
+{#                                <br>#}
+{#                                <button type="submit" class="btn btn-info">#}
+{#                                    Enregistrer#}
+{#                                </button>#}
+{#                            </form>#}
+{#                        </div>#}
+{#                        <!-- /modal body -->#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </ul>#}
+{#    </div> <!-- /sidebar -->#}
+
+    <div class="modal-body">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <br>
+            <button type="submit" class="btn btn-info">
+                Modifier
+            </button>
+        </form>
+    </div>
+{% endblock content %}

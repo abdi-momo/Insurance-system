@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>DETAIL DU VEHICULE</h2>
+    <table class="table table-striped">
+        <tr>
+            <th>Matricule</th>
+            <td>{{ vehicule_detail.immatriculation }}</td>
+        </tr>
+        <tr>
+            <th>Propriétaire</th>
+            <td>{{ vehicule_detail.proprietaire }}</td>
+        </tr>
+        <tr>
+            <th>Model</th>
+            <td>{{ vehicule_detail.model }} </td>
+        </tr>
+        <tr>
+            <th>Energie</th>
+            <td>{{ vehicule_detail.type_carburant }} </td>
+        </tr>
+        <tr>
+            <th>Puissance</th>
+            <td>{{ vehicule_detail.puissance }} </td>
+        </tr>
+        <tr>
+            <th>No carte grise</th>
+            <td>{{ vehicule_detail.numero_carte_grise }}</td>
+        </tr>
+        <tr>
+            <th>Date de mise en circulation</th>
+            <td>{{ vehicule_detail.date_mise_en_circulation }}</td>
+        </tr>
+        <tr>
+            <th>Nombre de place</th>
+            <td>{{ vehicule_detail.nb_place }}+CHAUFFEUR</td>
+        </tr>
+    </table>
+{% endblock content %}

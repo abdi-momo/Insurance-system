@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+{% if error_message %}
+<div class="alert alert-danger">{{ error_message }}</div>
+{% endif %}
+
+<form method="POST" action="{% url 'assurance_auto:new_invoice' %}" name="contrat" class="form-horizontal">
+	{% csrf_token %}
+	<div class="panel panel-primary">
+{#		<div class="panel-heading">Selectionner un contrat</div>#}
+		<div class="panel-body">
+			<div class="form-group">
+                <br>
+                <h3><strong>Paiement des contracts d'assurance</strong></h3>
+                <br>
+                {{ form.as_p }}
+                <label>Contrats: </label>
+                <select id="contrat" onchange="GetSelectedTextValue(this)">
+                    {% for contrat in form.contrat %}
+                        <option value="">{{ contrat }}</option>
+                    {% endfor %}
+                </select>
+                <p id="demo"></p>
+			</div>
+		</div>
+        <div class="messages">
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        <i class="glyphicon glyphicon-exclamation-sign"></i>{{ msg }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+		<div class="panel-footer">
+			<input type="submit" value="Valider le paiement" class="btn btn-primary">
+{#            <a href="{% url 'assurance_auto:Contrat_Liste' %}" class="btn btn-default">Ajouter Nouveau Contrat</a>#}
+		</div>
+        <br>
+
+        {% if form.contrat %}
+{#            <strong>Montant du contrat:</strong> {{ montantContrat }}KMF#}
+            <strong>Montant payé:</strong> {{ paidAmount }}KMF
+            <strong>Reste à payer:</strong> {{ remainAmount }}KMF
+        {% endif %}
+        <table class="table table-striped" id="myTable" name="myTable">
+
+            <thead>
+                <br>
+                <br>
+                <tr>
+                    <th>NUM CONTRAT</th>
+                    <th>VEHICULE</th>
+{#                    <th>MONTANT DU CONTRAT</th>#}
+                    <th>MONTANT REGLE</th>
+                    <th>DATE REGELEMENT</th>
+                    <th>MONTANT REGLE </th>
+                    <th>ETAT D'ASSURANCE</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for reglement in reglements %}
+                <tr>
+                    <td>{{ reglement.contrat.numero_de_contrat }}</td>
+                    <td>{{ reglement.contrat.vehicule }}</td>
+{#                    <td>{{ reglement.contrat.montant_du_contrat }}</td>#}
+                    <td>{{ reglement.montant_a_regler }}</td>
+                    <td>{{ reglement.date_reglement }}</td>
+                    <td>{{ reglement.regle }}</td>
+                    <td>{{ reglement.contrat.statut_assurance }}</td>
+                    <td><a href="{% url 'assurance_auto:Edit_Reglement' reglement.id %}">Modifier</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+                <tr>
+                    <th>NUM CONTRAT</th>
+                    <th>VEHICULE</th>
+                    <th>MONTANT REGLE</th>
+                    <th>DATE REGELEMENT</th>
+                    <th>MONTANT REGLE </th>
+                    <th>ETAT D'ASSURANCE</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </tfoot>
+        </table>
+	</div>
+</form>
+
+
+{#    <script>#}
+{#        $(document).ready(function() {#}
+{#        // Setup - add a text input to each footer cell#}
+{#        $('#myTable tfoot tr').clone(true).appendTo('#myTable thead');#}
+{#        $('#myTable tfoot tr:eq(1) th').each( function (i) {#}
+{#            var title = $(this).text();#}
+{#            $(this).html( '<input type="text" placeholder="Recherche '+title+'" />' );#}
+{#            $('input', this ).on( 'keyup change', function () {#}
+{#                if ( table.column(i).search() !== this.value ) {#}
+{#                    table#}
+{#                        .column(i)#}
+{#                        .search( this.value )#}
+{#                        .draw();#}
+{#                }#}
+{#            } );#}
+{#        } );#}
+{##}
+{#        var table = $('#myTable').DataTable( {#}
+{#            orderCellsTop: true,#}
+{#            fixedHeader: true#}
+{#            } );#}
+{#        } );#}
+{#    </script>#}
+
+    <script>
+        $(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#myTable tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="'+title+'" />' );
+    } );
+
+    // DataTable
+    var table = $('#myTable').DataTable({
+        initComplete: function () {
+            // Apply the search
+            this.api().columns().every( function () {
+                var that = this;
+
+                $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                            }
+                        } );
+                    } );
+                }
+            });
+        } );
+    </script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        function GetSelectedTextValue(contrat) {
+            var selectedText = contrat.options[contrat.selectedIndex].innerHTML;
+            {#var selectedValue = contrat.value;#}
+            var selectedValue = "{{ remainAmount|safe }}";
+            alert("Il vous reste à payer dans ce contrat: " + selectedText + " Value: " + selectedValue + "KMF");
+        }
+    </script>
+
+{% endblock %}

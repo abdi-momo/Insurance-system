@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Système de Gestion des Assurance </title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <style>
+            
+        </style>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-theme.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'font_awesome/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'jqueryui/jquery-ui.min.css' %}">
+        <!-- <link rel="stylesheet" type="text/css" href="{% static 'plugins/datatables/jquery.dataTables.min.css' %}"> -->
+        <link rel="stylesheet" type="text/css" href="{% static 'plugins/fullcalendar/fullcalendar.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/datepicker.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+         <!-- DataTable css link -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
+  
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
+
+
+
+
+        <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+
+        <style>
+
+            .btn {
+                background-color: DodgerBlue;
+                border: none;
+                color: white;
+                padding: 14px 28px;
+                font-size: 22px;
+                cursor: pointer;
+                margin: 20px 20px;
+                width: 250px;
+                height: 200px;
+            }
+
+            /* Darker background on mouse-over */
+            .btn:hover {
+              background-color: RoyalBlue;
+            }
+
+
+
+
+            fieldset{
+                width: 600px;
+                padding: 5px;
+            }
+            legend{
+                font-size: 20px;
+            }
+            label {
+                font-weight: bold;
+            }
+
+            #myInput {
+                {#background-image: url('/css/searchicon.png');#}
+                background-position: 10px 10px;
+                background-repeat: no-repeat;
+                width: 50%;
+                font-size: 16px;
+                padding: 12px 20px 12px 40px;
+                border: 1px solid #ddd;
+                margin-bottom: 12px;
+            }
+            {#thead input {#}
+            {#    width: 100%;#}
+            {#}
+
+            thead input {
+                width: 100%;
+                padding: 3px;
+                box-sizing: border-box;
+            }
+        </style>
+
+    </head>
+    <body>
+        <!-- {% include 'navbar.html' %} -->
+
+        <nav class="navbar navbar-toggleable-lg" style="box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.19)">
+            <a class="navbar-brand" href="/">SGA</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><i class="fa fa-list-alt" aria-hidden="true"></i> Tableau de bord</a>
+                    </li>
+                    <li class="nav-item" id="navBrand">
+                        <a class="nav-link" href="{% url 'assurance_auto:ListeClient' %}"><i class="fa fa-gamepad" aria-hidden="true"></i></i> Clients</a>
+                    </li>
+        {#            <li class="nav-item" id="navBrand">#}
+        {#                <a class="nav-link" href=""><i class="fa fa-envira" aria-hidden="true"></i> Vehicules</a>#}
+        {#            </li>#}
+
+                    <li class="nav-item dropdown" id="navBrand">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fa fa-envira" aria-hidden="true"></i>Véhicules
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        {#                    <a class="dropdown-item" href="{% url 'assurance_auto:AddVehicule' %}">Ajouter un vehicule</a>#}
+                            <a class="dropdown-item" href="{% url 'assurance_auto:Vehicule_Liste' %}">Liste des véhicules</a>
+        {#                    <a class="dropdown-item" href="{% url 'assurance_auto:AddMarque' %}">Ajouter une marque</a>#}
+                            <a class="dropdown-item" href="{% url 'assurance_auto:MarqueListe' %}">Liste des marques</a>
+        {#                    <a class="dropdown-item" href="{% url 'assurance_auto:AddModel' %}">Ajouter un model</a>#}
+                            <a class="dropdown-item" href="{% url 'assurance_auto:Model_Liste' %}">Liste des models</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-list" aria-hidden="true"></i> Paramettrage assurance
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                          <a class="dropdown-item" href="{% url 'assurance_auto:Category_Assurance' %}">Catégorie assurance</a>
+                          <a class="dropdown-item" href="{% url 'assurance_auto:Contrat_Liste' %}">Liste des contrats</a>
+        {#                  <a class="dropdown-item" href="{% url 'assurance_auto:new_invoice' %}">Nouveau reglement</a>#}
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-cubes" aria-hidden="true"></i></i> Réglement</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="{% url 'assurance_auto:addReglement' %}">Nouveau reglement</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><i class="fa fa-line-chart" aria-hidden="true"></i></i> Rapport</a>
+                    </li>
+                </ul>
+                {% if user.is_authenticated %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                   <i class="fa fa-user" aria-hidden="true"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-item" style="color: cornflowerblue">{{ user|capfirst }}</div>
+                                <a class="dropdown-item" href="#">Settings</a>
+                                <a class="dropdown-item" href="{% url 'account:logout' %}">Logout</a>
+            {#                    <div class="dropdown-divider"></div>#}
+            {#                    <a class="dropdown-item" href="#">Something else here</a>#}
+                            </ul>
+                        </li>
+                    </ul>
+                {% endif %}
+
+            </div>
+        </nav>
+
+
+        {% if messages %}
+            <div class="row">
+                <!-- <div class="col-sm-6 col-sm-offset-3"> -->
+                    {% for message in messages %}
+                        <div class="{{ message.tags }}">
+                            <h2 align="center">{{ message }}</h2>
+                        </div>
+                    {% endfor %}
+                <!-- </div> -->
+
+            </div>
+        {% endif %}
+
+        <div align="center">
+            <br>
+            <h5>VEHICULE, MARQUES, MODELS & CLIENTS</h5>
+            <hr>
+            <button class="btn"><i class='fa fa-cubes'></i> MARQUES</button>
+            <button class="btn"><i class='fa fa-object-ungroup'></i> MODELS</button>
+            <button class="btn"><i class='fa fa-car'></i> VEHICULES</button>
+            <button class="btn"><i class='fa fa-users'></i> CLIENTS</button>
+            <br>
+            <br>
+            <h5>CATEGORIES ASSURANCE, CONTRAT, ASSURANCE, & PAIMENT</h5>
+            <hr>
+            <button class="btn"><i class="fa fa-list" aria-hidden="true"></i>   CATEGRORIE</button>
+            <button class="btn"><i class="fa fa-umbrella"></i> ASSURANCE</button>
+            <button class="btn"><a class="nav-link" href="{% url 'assurance_auto:addReglement' %}"><i class="fa fa-money"></i> Réglement</a></button>
+            <button class="btn"><i class="fa fa-line-chart" aria-hidden="true"></i> Rapport</button>
+        </div>
+
+        {% block content %} {% endblock %}
+        {% block list %} {% endblock %}
+    </body>
+    <script src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'jqueryui/jquery-ui.min.js' %}"></script>
+    <!-- <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script> -->
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/fullcalendar/moment.min.js' %}"></script>
+    <script src="{% static 'plugins/fullcalendar/fullcalendar.min.js' %}"></script>
+    <script src="{% static 'plugins/datepick/jquery.datepick.js' %}"></script>
+
+    {% block script %}
+        
+    {% endblock %}
+
+
+    <!-- Jquery dataTable -->
+  <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+</html>

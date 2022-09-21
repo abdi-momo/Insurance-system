@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load mathfilters %}
+{% block content %}
+	<form>
+	    <input type="text" name="greatings">
+	    <button type="submit" class="btn btn-info" placeholder="Ecrire quelque chose ici Ex: Bonjour">Envoyer une notification</button>
+	    {% csrf_token %}
+    </form>
+    <br>
+    <div class="table-responsive" style="overflow-x:auto;">
+        <table class="table table-striped" id="myTable" name="myTable">
+            <thead>
+                <tr align="center">
+                    <th>N° CONTRAT</th>
+                    <th>S/C</th>
+                    <th>VEHICULE</th>
+                    <th>JOURS RESTANTS</th>
+                    <th>FIN ASSURANCE</th>
+                    <th>MONTANT</th>
+                    <th>STATUT</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contrat in contrats %}
+                    <tr align="center">
+                        <td><a href="{% url 'assurance_auto:Modif_Contrat' contrat.id %}">{{ contrat.numero_de_contrat }}</a></td>
+                        <td>{{ contrat.sous_couvert }}</td>
+                        <td>{{ contrat.vehicule }}</td>
+                        <td>{{ contrat.remainingdays }}</td>
+                        <td>{{ contrat.get_NbDays }}</td>
+                        <td>{{ contrat.type_contrat.montant_du_contrat }}</td>
+                        <td>{{ contrat.statut_assurance }}</td>
+                        <td>
+                            <a href="{% url 'assurance_auto:Edit_Contrat' contrat.id %}" class="btn btn-warning">Statut</a>
+                            <a href="{% url 'assurance_auto:Detail_contrat' contrat.id %}" class="btn btn-info">Détails</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table>
+            <tr>
+                <td>
+                    {% if ContratList.has_other_pages %}
+                        <ul class="pagination">
+                            {% if ContratList.has_previous %}
+                              <li><a href="?page={{ ContratList.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                              <li class="disabled"><span>&laquo;</span></li>
+                            {% endif %}
+                            {% for i in ContratList.paginator.page_range %}
+                              {% if ContratList.number == i %}
+                                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                              {% else %}
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                              {% endif %}
+                            {% endfor %}
+                            {% if ContratList.has_next %}
+                              <li><a href="?page={{ ContratList.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                              <li class="disabled"><span>&raquo;</span></li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+{% endblock content %}

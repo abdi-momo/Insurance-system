@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <!-- <div class="col-md-3">
+        <ul class="list-group">
+            <div id="btn_new">
+                <a href="" data-toggle="modal" data-target="#exampleModal" class="btn btn-info" >Nouveau véhicule</a>
+            </div>
+            <br>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="list-group-item active">
+                            <h5 class="modal-title" id="exampleModalLabel"><strong>Ajout des véhicules</strong></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <br>
+                                <button type="submit" class="btn btn-info">
+                                    Enregistrer
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ul>
+    </div> -->
+    <h3 align="center"><strong>ENREGISTEMENT DES VEHICULES</strong></h3>
+    <div class="table-responsive" style="overflow-x:auto;">
+        <table class="table table-striped" id="myTable" name="myTable">
+            <thead>
+                <tr>
+                    <th>IMMATRICULATION</th>
+                    <th>CARTE GRISE</th>
+                    <th>MODEL</th>
+                    <!-- <th>PUISSANCE</th> -->
+                    <!-- <th>Nb PLACE</th> -->
+                    <!-- <th>POIDS AUTORISE</th> -->
+                    <th>PROPRIETAIRE</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicule in VehiculeList %}
+                    <tr>
+                        <td>{{ vehicule.immatriculation }}</td>
+                        <td>{{ vehicule.numero_carte_grise }}</td>
+                        <td>{{ vehicule.model }}</td>
+                        <!-- <td>{{ vehicule.puissance }}</td> -->
+                        <!-- <td>{{ vehicule.nb_place }}</td> -->
+                        <!-- <td>{{ vehicule.poids_autorise }}</td> -->
+                        <td>{{ vehicule.proprietaire }}</td>
+                        <!-- <td>{{ vehicule.largeur }}</td> -->
+                        <td>
+                            <a href="{% url 'assurance_auto:Edit_Vehicule' vehicule.id %}" class="btn btn-warning">Modifier</a>
+                            <a href="{% url 'assurance_auto:Detail_vehicule' vehicule.id %}" class="btn btn-info">Détails</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function() {
+        // Setup - add a text input to each footer cell
+        $('#myTable thead tr').clone(true).appendTo('#myTable thead');
+        $('#myTable thead tr:eq(1) th').each( function (i) {
+            var title = $(this).text();
+            $(this).html( '<input type="text" placeholder="'+title+'" />' );
+            $('input', this ).on( 'keyup change', function () {
+                if ( table.column(i).search() !== this.value ) {
+                    table
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+
+        var table = $('#myTable').DataTable( {
+            orderCellsTop: true,
+            fixedHeader: true
+            } );
+        } );
+    </script>
+    <script type="text/javascript">
+        function myFunction() {
+        var input, filter, table, tr, td, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1]; // for column two
+                td1 = tr[i].getElementsByTagName("td")[2]; // for column three
+                /* ADD columns here that you want you to filter to be used on */
+            if (td) {
+              if ( (td.innerHTML.toUpperCase().indexOf(filter) > -1) || (td1.innerHTML.toUpperCase().indexOf(filter) > -1) )  {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+    </script>
+{% endblock content %}

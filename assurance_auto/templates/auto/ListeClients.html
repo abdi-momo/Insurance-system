@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!--     <div class="col-md-3">
+        <ul class="list-group"> -->
+           <!--  <div id="btn_new">
+                <a href="" data-toggle="modal" data-target="#exampleModal" class="btn btn-info" >Nouveau client</a>
+            </div>
+            <br> -->
+            <!-- Add Department Modal -->
+            <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="list-group-item active">
+                            <h5 class="modal-title" id="exampleModalLabel"><strong>Ajout des clients</strong></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <br>
+                                <button type="submit" class="btn btn-info">
+                                    Enregistrer
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div> -->
+       <!--      </div>
+        </ul> -->
+    <!-- </div> --> <!-- /sidebar -->
+
+    <h3 align="center"><strong>LISTE DES CLIENTS</strong></h3>
+    <div class="table-responsive" style="overflow-x:auto;">
+        <table class="table table-striped" id="myTable">
+            <thead>
+                <tr>
+                    <!-- <th>N°</th> -->
+                    <th>CIN</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Adresse</th>
+                    <th>Téléphone</th>
+                    <th>E-mail</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in listClient %}
+                    <tr>
+                        <!-- <td>{{ forloop.counter }}</td> -->
+                        <td>{{ client.CIN }}</td>
+                        <td>{{ client.nom }}</td>
+                        <td>{{ client.prenom }}</td>
+                        <td>{{ client.adresse }}</td>
+                        <td>{{ client.telephone }}</td>
+                        <td>{{ client.email }}</td>
+                        <td><a href="{% url 'assurance_auto:Edit_Client' client.id %}">Modifier</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function() {
+        // Setup - add a text input to each footer cell
+        $('#myTable thead tr').clone(true).appendTo('#myTable thead');
+        $('#myTable thead tr:eq(1) th').each( function (i) {
+            var title = $(this).text();
+            $(this).html( '<input type="text" placeholder="'+title+'" />' );
+            $('input', this ).on( 'keyup change', function () {
+                if ( table.column(i).search() !== this.value ) {
+                    table
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+
+        var table = $('#myTable').DataTable( {
+            orderCellsTop: true,
+            fixedHeader: true
+            } );
+        } );
+    </script>
+{% endblock content %}

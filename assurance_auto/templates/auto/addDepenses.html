@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load mathfilters %}
+{% block content %}
+    <div class="col-md-3">
+        <ul class="list-group">
+            <div id="btn_new">
+                <a href="" data-toggle="modal" data-target="#exampleModal" class="btn btn-info" >Nouvelle dépense</a>
+            </div>
+            <!-- Add Department Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="list-group-item active">
+                            <h5 class="modal-title" id="exampleModalLabel"><strong>Ajout de nouvelle dépense</strong></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> <!-- /modal header -->
+                        <div class="modal-body">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <br>
+                                <button type="submit" class="btn btn-info">
+                                    Enregistrer
+                            </button>
+                            </form>
+                        </div>
+                        <!-- /modal body -->
+                    </div>
+                </div>
+            </div>
+        </ul>
+    </div> <!-- /sidebar -->
+    <h3 align="center"><strong>LISTE DES DEPENSES</strong></h3>
+    <div class="table-responsive" style="overflow-x:auto;">
+        <table class="table table-striped" id="myTable" name="myTable">
+            <thead>
+                <tr><th>REFERENCE</th>
+                    <th>OBJET</th>
+                    <th>BENEFICIAIRE</th>
+                    <th>MONTANT</th>
+                    <th>DATE DEPENSE</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for depense in list_Depenses %}
+                    <tr>
+                        <td>{{ depense.code_depense }}</td>
+                        <td>{{ depense.objet }}</td>
+                        <td>{{ depense.beneficiaire }}</td>
+                        <td>{{ depense.montant }}</td>
+                        <td>{{ depense.date_depense }}</td>
+                        <td>
+                            <a href="{% url 'assurance_auto:detail_Depense' depense.id %}" class="btn btn-info">Détail</a>
+                            <a href="{% url 'assurance_auto:Modif_Depense' depense.id %}" class="btn btn-warning">Modifier</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+            {% if ContratList.has_other_pages %}
+              <ul class="pagination">
+                {% if ContratList.has_previous %}
+                  <li><a href="?page={{ ContratList.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in ContratList.paginator.page_range %}
+                  {% if ContratList.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                  {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if ContratList.has_next %}
+                  <li><a href="?page={{ ContratList.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+              </ul>
+            {% endif %}
+    </div>
+    <!-- <script>
+        $(document).ready(function() {
+        // Setup - add a text input to each footer cell
+        $('#myTable thead tr').clone(true).appendTo('#myTable thead');
+        $('#myTable thead tr:eq(1) th').each( function (i) {
+            var title = $(this).text();
+            $(this).html( '<input type="text" placeholder="'+title+'" />' );
+            $('input', this ).on( 'keyup change', function () {
+                if ( table.column(i).search() !== this.value ) {
+                    table
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+
+        var table = $('#myTable').DataTable( {
+            orderCellsTop: true,
+            fixedHeader: true
+            } );
+        } );
+    </script> -->
+{% endblock content %}

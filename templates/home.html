@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+	
+{% block content %}
+
+	<div class="card-columns">
+		<div class="card text-center">
+		    <div class="card-body">
+		      	<ul class="navbar-nav mr-auto" style="text-align: center;">
+					<li class="nav-link">
+						<a href="{% url 'assurance_auto:MarqueListe' %}" class="nav-link">
+							<i class="fa fa-cubes" style="font-size:90px;color:blue;text-align:center"></i>
+							<h2 align="center">
+								<strong>MARQUES</strong>
+							</h2>
+						</a>
+					</li>
+				</ul>
+		    </div>
+  		</div>
+  		<div class="card text-center">
+		    <div class="card-body">
+		      	<ul class="navbar-nav mr-auto" style="text-align: center;">
+					<li class="nav-link">
+						<a href="{% url 'assurance_auto:TypeContrat_Assurance' %}" class="nav-link">
+                          	<i class="fa fa-list" style="font-size:90px;color:blue;text-align:center"></i>
+                          	<h2 align="center">
+								<strong>Type de contrat d'assurance</strong>
+							</h2>
+                    	</a>
+					</li>
+				</ul>
+		    </div>
+  		</div>
+
+		<div class="card text-center">
+		    <div class="card-body">
+		      	<ul class="navbar-nav mr-auto" style="text-align: center;">
+					<li class="nav-link">
+						<a href="{% url 'assurance_auto:addReglement' %}" class="nav-link">
+							<i class="fas fa-scanner"></i>
+                          	<i class="fas fa-coins" style="font-size:90px;color:blue;text-align:center"></i>
+                          	<h2 align="center">
+								<strong>REGLEMENTS</strong>
+							</h2>
+                    	</a>
+					</li>
+				</ul>
+		    </div>
+  		</div>
+
+		<div class="card text-center">
+		    <div class="card-body">
+		      	<ul class="navbar-nav mr-auto" style="text-align: center;">
+					<li class="nav-link">
+						<a href="{% url 'assurance_auto:Model_Liste' %}" class="nav-link">
+                      		<i class="fas fa-shipping-fast" style="font-size:90px;color:blue; text-align: center;">
+                          	</i>
+                          	<h2 align="center">
+								<strong>MODELES</strong>
+							</h2>
+                    	</a>
+					</li>
+				</ul>
+		    </div>
+  		</div>
+  		
+		<div class="card text-center">
+		    <div class="card-body">
+		      	<ul class="navbar-nav mr-auto" style="text-align: center;">
+					<li class="nav-link">
+						<a href="{% url 'assurance_auto:Contrat_Liste' %}" class="nav-link">
+                          	<i class="fa fa-file-invoice" style="font-size:90px;color:blue;text-align:center"></i>
+                          	<h2 align="center">
+								<strong>CONTRATS</strong>
+							</h2>
+                    	</a>
+					</li>
+				</ul>
+		    </div>
+  		</div>
+
+		<div class="card text-center">
+		    <div class="card-body">
+		      	<ul class="navbar-nav mr-auto" style="text-align: center;">
+					<li class="nav-link">
+						<a href="" class="nav-link">
+                          	<i class="fa fa-chart-line" style="font-size:90px;color:blue;text-align:center"></i>
+                          	<h2 align="center">
+								<strong>Statitiques</strong>
+							</h2>
+                    	</a>
+					</li>
+				</ul>
+		    </div>
+	  	</div>
+
+		<div class="card text-center">
+		    <div class="card-body">
+		      	<ul class="navbar-nav mr-auto" style="text-align: center;">
+					<li class="nav-link">
+						<a href="{% url 'assurance_auto:Vehicule_Liste' %}" class="nav-link">
+                      		<i class="fa fa-car" style="font-size:90px;color:blue;text-align:center">
+                          	</i>
+                          	<h2 align="center">
+								<strong>VEHICULES</strong>
+							</h2>
+                    	</a>
+					</li>
+				</ul>
+		    </div>
+	  	</div>
+	  	<div class="card text-center">
+		    <div class="card-body">
+		      	<ul class="navbar-nav mr-auto" style="text-align: center;">
+					<li class="nav-link">
+						<a href="{% url 'assurance_auto:ListeClient' %}" class="nav-link">
+							<i class="fas fa-scanner"></i>
+                          	<i class="fa fa-users" style="font-size:90px;color:blue;text-align:center"></i>
+                          	<h2 align="center">
+								<strong>CLIENTS</strong>
+							</h2>
+                    	</a>
+					</li>
+				</ul>
+		    </div>
+  		</div>
+		<div class="card text-center">
+		    <div class="card-body">
+		      	<ul class="navbar-nav mr-auto" style="text-align: center;">
+					<li class="nav-link">
+						<a href="" class="nav-link">
+                          	<i class="fas fa-user-cog" style="font-size:90px;color:blue;text-align:center"></i>
+                          	<h2 align="center">
+								<strong>Administration</strong>
+							</h2>
+                    	</a>
+					</li>
+				</ul>
+		    </div>
+	  	</div>
+	</div>
+{% endblock %}

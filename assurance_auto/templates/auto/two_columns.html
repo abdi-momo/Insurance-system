@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Create two unequal columns that floats next to each other */
+    .column {
+      float: left;
+      padding: 10px;
+      height: 300px;  /*Should be removed. Only for demonstration*/ 
+    }
+
+    .left {
+      width: 75%;
+    }
+
+    .right {
+      width: 25%;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    table #contour, th{
+      font-family: '!important', 'sans-serif';
+      /*border-bottom: 1px solid black;*/
+      /*border-collapse: collapse;*/
+      /*font-size: 10px;*/
+    }
+    table th{
+            font-family: '!important', 'sans-serif';
+            border-bottom: 1px solid black;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+  </style>
+</head>
+<body>
+
+  <table>
+    <caption>
+        <img src="D:/GestionAssurance/static/img/logo3.png" height="80" style="width:1500px; height: 100%;" />
+    </caption>
+                
+      <tr>
+          <td align="left"><br>N°_POLICE: </td>
+          <th colspan="2" align="center"><br><b>{{reglement.code_reglement }}</b></th>
+      </tr>
+
+      <tr>
+          <td align="left"><br>Souscription (Nom et prénom): </td>
+          <th align="center" colspan="4" style="font-size: 14px">{{ reglement.contrat.vehicule.proprietaire.nom }} {{ reglement.contrat.vehicule.proprietaire.prenom }}</th>
+      </tr>
+      <tr>
+          <td align="left"><br>S/C:            </td>
+          <th align="center" colspan="4" style="font-size: 14px"><br>{{ reglement.contrat.conducteur }}</th>
+      </tr>
+      <tr>
+          <br>
+          <td align="left"><br>Adresse: </td>
+          <th align="center" colspan="4" style="font-size: 14px"><br>{{ reglement.contrat.vehicule.proprietaire.adresse }}</th>
+      </tr>
+      <tr>
+          <br>
+          <td align="left">Valide du:  <br> </td>  
+          <th align="center" style="font-size: 14px"><br>{{ reglement.contrat.blocked_date|date:"d M, Y" }} </th>
+          <td align="center" style="font-size: 14px"><br>au </td>
+          <th align="center" style="font-size: 14px"><br>{{ reglement.contrat.get_NbDays|date:"d M, Y" }}</th>
+      </tr>
+  </table>  
+  <p align="center">(Période pour laquelle la prime a été intégrallement payé)</p>
+
+  <div class="row">
+    <div class="column left">
+      <table border="1" id="contour">
+        <!-- <caption>VEHICULE ASSURE</ca-->
+        <thead>
+          <th>USAGE</th>
+          <th>MARQUE 
+              <br> (ET TYPE POUR LES REMORQUES ET SEMI-REMORQUES)
+          </th>
+          <th>NUMERO <br>(D'IMMATRICULATION OU DU MOTEUR 51)
+          </th>     
+        </thead>
+            <tbody>
+                <tr>
+                    <td  align="center" style="font-size: 12px">{{ reglement.contrat.categorie.nom }}<br>
+                        {{ reglement.contrat.categorie}}
+                        {{ reglement.contrat.vehicule.nb_place }} places + Chauffeur  </td>
+                    <td align="center" style="font-size: 12px"> {{ reglement.contrat.vehicule.model.marque }} {{ reglement.contrat.vehicule.model.nom_model }}</td>
+                    <td align="center" style="font-size: 12px"> {{ reglement.contrat.vehicule.immatriculation }} </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="column right">
+        Délivré le {{ reglement.contrat.modified }}<br>
+        <b>LA DIRECTION</b>
+        <br>
+        Signature et cachet
+        <br>
+        <!-- <h2>Column 2</h2>
+        <p>Some text..</p> -->
+    </div>
+  </div>
+ 
+</body>
+</html>
